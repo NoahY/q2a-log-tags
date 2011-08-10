@@ -11,6 +11,7 @@ Features
 --------
 - logarithmic weight calculation (i.e. less disparity among tag sizes)
 - maximum *and* minimum font size adjustment via admin
+- option to set minimum count for showing
 - sort tags by use count or alphabetically via admin
 
 ------------
