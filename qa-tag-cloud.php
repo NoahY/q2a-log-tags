@@ -25,7 +25,7 @@
 	More about this license: http://www.question2answer.org/license.php
 */
 
-	class qa_tag_cloud {
+	class qa__log_tag_cloud {
 		
 		function option_default($option)
 		{
