@@ -85,7 +85,7 @@
 						'label' => 'Min font size (in pixels):',
 						'type' => 'select-radio',
 						'value' => qa_opt('tag_cloud_sort_type'),
-						'options' => array('alphabetical','numerical')
+						'options' => array('alphabetical','numerical'),
 						'tags' => 'NAME="tag_cloud_sort_type"',
 					),
 					
