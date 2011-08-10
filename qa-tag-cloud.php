@@ -7,6 +7,8 @@
 			switch ($option) {
 				case 'log_tag_cloud_count_tags':
 					return 100;
+				case 'log_tag_cloud_min_count':
+					return 1;
 				case 'log_tag_cloud_font_size':
 					return 24;
 				case 'log_tag_cloud_min_font_size':
@@ -26,6 +28,7 @@
 			
 			if (qa_clicked('log_tag_cloud_save_button')) {
 				qa_opt('log_tag_cloud_count_tags', (int)qa_post_text('log_tag_cloud_count_tags_field'));
+				qa_opt('log_tag_cloud_min_count', (int)qa_post_text('log_tag_cloud_min_count'));
 				qa_opt('log_tag_cloud_font_size', (int)qa_post_text('log_tag_cloud_font_size_field'));
 				qa_opt('log_tag_cloud_min_font_size', (int)qa_post_text('log_tag_cloud_min_font_size_field'));
 				qa_opt('log_tag_cloud_sort_type', ((int)qa_post_text('log_tag_cloud_sort_type') == 0?'alphabetical':'numerical'));
@@ -42,6 +45,12 @@
 						'type' => 'number',
 						'value' => (int)qa_opt('log_tag_cloud_count_tags'),
 						'tags' => 'NAME="log_tag_cloud_count_tags_field"',
+					),
+					array(
+						'label' => 'Minimum count required to show:',
+						'type' => 'number',
+						'value' => (int)qa_opt('log_tag_cloud_min_count'),
+						'tags' => 'NAME="log_tag_cloud_min_count"',
 					),
 
 					array(
@@ -121,7 +130,18 @@
 		{
 			require_once QA_INCLUDE_DIR.'qa-db-selects.php';
 			
-			$populartags=qa_db_single_select(qa_db_popular_tags_selectspec(0, (int)qa_opt('log_tag_cloud_count_tags')));
+			$populartags=qa_db_single_select(
+				array(
+					'columns' => array('word' => 'BINARY word', 'tagcount'),
+					'source' => '^words JOIN (SELECT wordid FROM ^words WHERE tagcount># ORDER BY tagcount DESC LIMIT #,#) y ON ^words.wordid=y.wordid',
+					'arguments' => array((int)qa_opt('log_tag_cloud_min_count'),0, (int)qa_opt('log_tag_cloud_count_tags')),
+					'arraykey' => 'word',
+					'arrayvalue' => 'tagcount',
+					'sortdesc' => 'tagcount',
+				)
+			);
+			
+			qa_db_popular_tags_selectspec(0, (int)qa_opt('log_tag_cloud_count_tags')));
 			
 			$maxsize=(int)qa_opt('log_tag_cloud_font_size');
 			$minsize=(int)qa_opt('log_tag_cloud_min_font_size');		
@@ -129,11 +149,13 @@
 
 			$scale=qa_opt('log_tag_cloud_size_popular');
 			
+			if($count
 			if($scale) {	
 				// convert from linear to log
 				
 				$populartags = $this->FromParetoCurve($populartags, $minsize, $maxsize);
 			}	
+			
 					
 			if(qa_opt('log_tag_cloud_sort_type') == 'alphabetical') {
 				
@@ -151,7 +173,6 @@
 			$themeobject->output('<DIV STYLE="font-size:10px;">');
 			
 			foreach ($populartags as $tag => $count) {
-				
 				$size=number_format(($scale ? $count : $maxsize), 1);
 				
 				$themeobject->output('<A HREF="'.qa_path_html('tag/'.$tag).'" STYLE="font-size:'.$size.'px; vertical-align:baseline;">'.qa_html($tag).'</A>');
