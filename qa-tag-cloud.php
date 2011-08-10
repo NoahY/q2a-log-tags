@@ -153,7 +153,7 @@
 			
 			// convert from linear to log
 			
-			$populartags = FromParetoCurve($populartags, $min, $max);
+			$populartags = $this->FromParetoCurve($populartags, $min, $max);
 			
 			if(qa_opt('log_tag_cloud_sort_type') == 'alphabetical') {
 				
