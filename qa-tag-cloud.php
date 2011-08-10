@@ -147,7 +147,6 @@
 
 			$scale=qa_opt('log_tag_cloud_size_popular');
 			
-			if($count
 			if($scale) {	
 				// convert from linear to log
 				
