@@ -25,32 +25,36 @@
 	More about this license: http://www.question2answer.org/license.php
 */
 
-	class qa__log_tag_cloud {
+	class qa_log_tag_cloud {
 		
 		function option_default($option)
 		{
-			if ($option=='tag_cloud_count_tags')
-				return 100;
-			elseif ($option=='tag_cloud_font_size')
-				return 24;
-			elseif ($option=='tag_cloud_min_font_size')
-				return 8;
-			elseif ($option=='tag_cloud_sort_type')
-				return 'alphabetical';
-			elseif ($option=='tag_cloud_size_popular')
-				return true;
+			switch ($option) {
+				case 'log_tag_cloud_count_tags':
+					return 100;
+				case 'log_tag_cloud_font_size':
+					return 24;
+				case 'log_tag_cloud_min_font_size':
+					return 8;
+				case 'log_tag_cloud_sort_type':
+					return 'alphabetical';
+				case 'log_tag_cloud_size_popular':
+					return true;
+				default:
+					return false;
+			}
 		}
 		
 		function admin_form()
 		{
 			$saved=false;
 			
-			if (qa_clicked('tag_cloud_save_button')) {
-				qa_opt('tag_cloud_count_tags', (int)qa_post_text('tag_cloud_count_tags_field'));
-				qa_opt('tag_cloud_font_size', (int)qa_post_text('tag_cloud_font_size_field'));
-				qa_opt('tag_cloud_min_font_size', (int)qa_post_text('tag_cloud_min_font_size_field'));
-				qa_opt('tag_cloud_sort_type', ((int)qa_post_text('tag_cloud_sort_type') == 0?'alphabetical':'numerical'));
-				qa_opt('tag_cloud_size_popular', (int)qa_post_text('tag_cloud_size_popular_field'));
+			if (qa_clicked('log_tag_cloud_save_button')) {
+				qa_opt('log_tag_cloud_count_tags', (int)qa_post_text('log_tag_cloud_count_tags_field'));
+				qa_opt('log_tag_cloud_font_size', (int)qa_post_text('log_tag_cloud_font_size_field'));
+				qa_opt('log_tag_cloud_min_font_size', (int)qa_post_text('log_tag_cloud_min_font_size_field'));
+				qa_opt('log_tag_cloud_sort_type', ((int)qa_post_text('log_tag_cloud_sort_type') == 0?'alphabetical':'numerical'));
+				qa_opt('log_tag_cloud_size_popular', (int)qa_post_text('log_tag_cloud_size_popular_field'));
 				$saved=true;
 			}
 			
@@ -61,46 +65,46 @@
 					array(
 						'label' => 'Number of tags to show:',
 						'type' => 'number',
-						'value' => (int)qa_opt('tag_cloud_count_tags'),
-						'tags' => 'NAME="tag_cloud_count_tags_field"',
+						'value' => (int)qa_opt('log_tag_cloud_count_tags'),
+						'tags' => 'NAME="log_tag_cloud_count_tags_field"',
 					),
 
 					array(
 						'label' => 'Max font size (in pixels):',
 						'type' => 'number',
-						'value' => (int)qa_opt('tag_cloud_font_size'),
-						'tags' => 'NAME="tag_cloud_font_size_field"',
+						'value' => (int)qa_opt('log_tag_cloud_font_size'),
+						'tags' => 'NAME="log_tag_cloud_font_size_field"',
 					),
 					
 
 					array(
 						'label' => 'Min font size (in pixels):',
 						'type' => 'number',
-						'value' => (int)qa_opt('tag_cloud_min_font_size'),
-						'tags' => 'NAME="tag_cloud_min_font_size_field"',
+						'value' => (int)qa_opt('log_tag_cloud_min_font_size'),
+						'tags' => 'NAME="log_tag_cloud_min_font_size_field"',
 					),
 					
 
 					array(
 						'label' => 'Min font size (in pixels):',
 						'type' => 'select-radio',
-						'value' => qa_opt('tag_cloud_sort_type'),
+						'value' => qa_opt('log_tag_cloud_sort_type'),
 						'options' => array('alphabetical','numerical'),
-						'tags' => 'NAME="tag_cloud_sort_type"',
+						'tags' => 'NAME="log_tag_cloud_sort_type"',
 					),
 					
 					array(
 						'label' => 'Font size represents tag popularity',
 						'type' => 'checkbox',
-						'value' => qa_opt('tag_cloud_size_popular'),
-						'tags' => 'NAME="tag_cloud_size_popular_field"',
+						'value' => qa_opt('log_tag_cloud_size_popular'),
+						'tags' => 'NAME="log_tag_cloud_size_popular_field"',
 					),
 				),
 				
 				'buttons' => array(
 					array(
 						'label' => 'Save Changes',
-						'tags' => 'NAME="tag_cloud_save_button"',
+						'tags' => 'NAME="log_tag_cloud_save_button"',
 					),
 				),
 			);
@@ -142,7 +146,7 @@
 		{
 			require_once QA_INCLUDE_DIR.'qa-db-selects.php';
 			
-			$populartags=qa_db_single_select(qa_db_popular_tags_selectspec(0, qa_opt('tag_cloud_count_tags')));
+			$populartags=qa_db_single_select(qa_db_popular_tags_selectspec(0, qa_opt('log_tag_cloud_count_tags')));
 			
 			$max = max(array_values($populartags));
 			$min = min(array_values($populartags));			
@@ -150,6 +154,8 @@
 			// convert from linear to log
 			
 			$populartags = FromParetoCurve($populartags, $min, $max);
+			
+			if(qa_opt('log_tag_cloud_font_size')
 			
 			// sort alphabetical
 			
@@ -163,9 +169,9 @@
 			
 			$themeobject->output('<DIV STYLE="font-size:10px;">');
 			
-			$maxsize=qa_opt('tag_cloud_font_size');
-			$minsize=qa_opt('tag_cloud_min_font_size');
-			$scale=qa_opt('tag_cloud_size_popular');
+			$maxsize=qa_opt('log_tag_cloud_font_size');
+			$minsize=qa_opt('log_tag_cloud_min_font_size');
+			$scale=qa_opt('log_tag_cloud_size_popular');
 			
 			foreach ($populartags as $tag => $count) {
 				$size=number_format(($scale ? ($maxsize-$minsize*$count/$maxcount)-$minsize : $maxsize), 1);
@@ -239,7 +245,7 @@
 			return $output;
 		}
 	
-	};
+	}
 	
 
 /*

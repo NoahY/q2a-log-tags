@@ -44,7 +44,7 @@
 	}
 
 
-	qa_register_plugin_module('widget', 'qa-tag-cloud.php', 'qa_tag_cloud', 'Logarithmic Tag Cloud');
+	qa_register_plugin_module('widget', 'qa-tag-cloud.php', 'qa_log_tag_cloud', 'Logarithmic Tag Cloud');
 	
 
 /*
