@@ -141,8 +141,6 @@
 				)
 			);
 			
-			qa_db_popular_tags_selectspec(0, (int)qa_opt('log_tag_cloud_count_tags')));
-			
 			$maxsize=(int)qa_opt('log_tag_cloud_font_size');
 			$minsize=(int)qa_opt('log_tag_cloud_min_font_size');		
 
