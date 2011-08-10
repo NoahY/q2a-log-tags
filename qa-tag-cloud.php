@@ -1,30 +1,5 @@
 <?php
 
-/*
-	Question2Answer 1.4.1 (c) 2011, Gideon Greenspan
-
-	http://www.question2answer.org/
-
-	
-	File: qa-plugin/tag-cloud-widget/qa-tag-cloud.php
-	Version: 1.4.1
-	Date: 2011-07-10 06:58:57 GMT
-	Description: Widget module class for tag cloud plugin
-
-
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
-	
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	More about this license: http://www.question2answer.org/license.php
-*/
-
 	class qa_log_tag_cloud {
 		
 		function option_default($option)
@@ -86,7 +61,7 @@
 					
 
 					array(
-						'label' => 'Min font size (in pixels):',
+						'label' => 'Tag cloud sort type:',
 						'type' => 'select-radio',
 						'value' => qa_opt('log_tag_cloud_sort_type'),
 						'options' => array('alphabetical','numerical'),
@@ -146,15 +121,20 @@
 		{
 			require_once QA_INCLUDE_DIR.'qa-db-selects.php';
 			
-			$populartags=qa_db_single_select(qa_db_popular_tags_selectspec(0, qa_opt('log_tag_cloud_count_tags')));
+			$populartags=qa_db_single_select(qa_db_popular_tags_selectspec(0, (int)qa_opt('log_tag_cloud_count_tags')));
 			
-			$max = max(array_values($populartags));
-			$min = min(array_values($populartags));			
+			$maxsize=(int)qa_opt('log_tag_cloud_font_size');
+			$minsize=(int)qa_opt('log_tag_cloud_min_font_size');		
+
+
+			$scale=qa_opt('log_tag_cloud_size_popular');
 			
-			// convert from linear to log
-			
-			$populartags = $this->FromParetoCurve($populartags, $min, $max);
-			
+			if($scale) {	
+				// convert from linear to log
+				
+				$populartags = $this->FromParetoCurve($populartags, $minsize, $maxsize);
+			}	
+					
 			if(qa_opt('log_tag_cloud_sort_type') == 'alphabetical') {
 				
 				// sort alphabetical
@@ -170,12 +150,9 @@
 			
 			$themeobject->output('<DIV STYLE="font-size:10px;">');
 			
-			$maxsize=qa_opt('log_tag_cloud_font_size');
-			$minsize=qa_opt('log_tag_cloud_min_font_size');
-			$scale=qa_opt('log_tag_cloud_size_popular');
-			
 			foreach ($populartags as $tag => $count) {
-				$size=number_format(($scale ? ($maxsize-$minsize*$count/$maxcount)-$minsize : $maxsize), 1);
+				
+				$size=number_format(($scale ? $count : $maxsize), 1);
 				
 				$themeobject->output('<A HREF="'.qa_path_html('tag/'.$tag).'" STYLE="font-size:'.$size.'px; vertical-align:baseline;">'.qa_html($tag).'</A>');
 			}
