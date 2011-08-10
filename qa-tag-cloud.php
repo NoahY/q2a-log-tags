@@ -155,12 +155,13 @@
 			
 			$populartags = FromParetoCurve($populartags, $min, $max);
 			
-			if(qa_opt('log_tag_cloud_font_size')
-			
-			// sort alphabetical
-			
-			ksort($populartags);
-			
+			if(qa_opt('log_tag_cloud_sort_type') == 'alphabetical') {
+				
+				// sort alphabetical
+				
+				ksort($populartags);
+			}
+				
 			$themeobject->output(
 				'<DIV CLASS="qa-nav-cat-list qa-nav-cat-link" STYLE="margin:0;">',
 				qa_lang_html('main/popular_tags'),
