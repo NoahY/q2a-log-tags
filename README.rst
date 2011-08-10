@@ -17,9 +17,8 @@ Features
 Installation
 ------------
 1. Install Question2Answer_
-2. Create a new folder in the qa-plugin directory (e.g. log-cloud)
-3. Place the files in this repository in that folder
-4. Go to **Admin -> Plugins** on your q2a install and select options, then click **Save Changes**
+2. Place the files in this repository in a subfolder of the qa-plugin directory (**git clone git://github.com/NoahY/q2a-log-tags.git log-cloud** works)
+3. Go to **Admin -> Plugins** on your q2a install and select options, then click **Save Changes**
 
 .. _Question2Answer: http://www.question2answer.org/install.php
 
