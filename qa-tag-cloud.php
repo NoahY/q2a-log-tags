@@ -169,8 +169,8 @@
 				
 				ksort($populartags);
 			}
-			
-			if(qa_opt('log_tag_cloud_header')) {
+			if(qa_opt('log_tag_cloud_header') != '') {
+				error_log(qa_opt('log_tag_cloud_header'));
 				$themeobject->output(
 					'<DIV CLASS="qa-nav-cat-list qa-nav-cat-link" STYLE="margin:0;">',
 					qa_opt('log_tag_cloud_header'),
