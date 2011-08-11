@@ -29,7 +29,7 @@
 			$saved=false;
 			
 			if (qa_clicked('log_tag_cloud_save_button')) {
-				qa_opt('log_tag_cloud_header', (int)qa_post_text('log_tag_cloud_header'));
+				qa_opt('log_tag_cloud_header', qa_post_text('log_tag_cloud_header'));
 				qa_opt('log_tag_cloud_count_tags', (int)qa_post_text('log_tag_cloud_count_tags_field'));
 				qa_opt('log_tag_cloud_min_count', (int)qa_post_text('log_tag_cloud_min_count'));
 				qa_opt('log_tag_cloud_font_size', (int)qa_post_text('log_tag_cloud_font_size_field'));
@@ -173,7 +173,7 @@
 			if(qa_opt('log_tag_cloud_header')) {
 				$themeobject->output(
 					'<DIV CLASS="qa-nav-cat-list qa-nav-cat-link" STYLE="margin:0;">',
-					qa_lang_html('main/popular_tags'),
+					qa_opt('log_tag_cloud_header'),
 					'</DIV>'
 				);
 			}
