@@ -5,6 +5,8 @@
 		function option_default($option)
 		{
 			switch ($option) {
+				case 'log_tag_cloud_header':
+					return qa_lang_html('main/popular_tags');
 				case 'log_tag_cloud_count_tags':
 					return 100;
 				case 'log_tag_cloud_min_count':
@@ -27,6 +29,7 @@
 			$saved=false;
 			
 			if (qa_clicked('log_tag_cloud_save_button')) {
+				qa_opt('log_tag_cloud_header', (int)qa_post_text('log_tag_cloud_header'));
 				qa_opt('log_tag_cloud_count_tags', (int)qa_post_text('log_tag_cloud_count_tags_field'));
 				qa_opt('log_tag_cloud_min_count', (int)qa_post_text('log_tag_cloud_min_count'));
 				qa_opt('log_tag_cloud_font_size', (int)qa_post_text('log_tag_cloud_font_size_field'));
@@ -40,6 +43,12 @@
 				'ok' => $saved ? 'Tag cloud settings saved' : null,
 				
 				'fields' => array(
+					array(
+						'label' => 'Tag cloud header (blank to disable):',
+						'type' => 'text',
+						'value' => qa_opt('log_tag_cloud_header'),
+						'tags' => 'NAME="log_tag_cloud_header"',
+					),
 					array(
 						'label' => 'Number of tags to show:',
 						'type' => 'number',
@@ -160,12 +169,14 @@
 				
 				ksort($populartags);
 			}
-				
-			$themeobject->output(
-				'<DIV CLASS="qa-nav-cat-list qa-nav-cat-link" STYLE="margin:0;">',
-				qa_lang_html('main/popular_tags'),
-				'</DIV>'
-			);
+			
+			if(qa_opt('log_tag_cloud_header')) {
+				$themeobject->output(
+					'<DIV CLASS="qa-nav-cat-list qa-nav-cat-link" STYLE="margin:0;">',
+					qa_lang_html('main/popular_tags'),
+					'</DIV>'
+				);
+			}
 			
 			$themeobject->output('<DIV STYLE="font-size:10px;">');
 			
