@@ -17,13 +17,20 @@ Features
 ------------
 Installation
 ------------
-1. Install Question2Answer_
-2. Place the files in this repository in a subfolder of the qa-plugin directory (**git clone git://github.com/NoahY/q2a-log-tags.git log-cloud** works)
-3. Go to **Admin -> Plugins** on your q2a install and select options, then click **Save Changes**
+#. Install Question2Answer_
+#. Get the source code for this plugin from github_, either using git_, or downloading directly:
+
+   - To download using git, install git and then type 
+     ``git clone git://github.com/NoahY/q2a-log-tags.git log-tags``
+     at the command prompt (on Linux, Windows is a bit different)
+   - To download directly, go to the `project page`_ and click **Download**
+
+#. navigate to your site, go to **Admin -> Plugins** on your q2a install and select options, then click **Save Changes**.
 
 .. _Question2Answer: http://www.question2answer.org/install.php
-
-.. _here: http://www.question2answer.org/layers.php
+.. _git: http://git-scm.com/
+.. _github:
+.. _project page: https://github.com/NoahY/q2a-log-tags
 
 ----------
 Disclaimer
