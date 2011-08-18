@@ -4,7 +4,7 @@
 	Plugin Name: Logarithmic Tag Cloud Widget
 	Plugin URI: https://github.com/NoahY/q2a-log-tags
 	Plugin Description: Provides a list of tags with logarithmic size indicating popularity
-	Plugin Version: 0.1
+	Plugin Version: 1.0b
 	Plugin Date: 2011-08-10
 	Plugin Author: NoahY
 	Plugin Author URI: http://www.question2answer.org/qa/user/NoahY
