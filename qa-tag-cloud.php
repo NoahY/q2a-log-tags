@@ -150,6 +150,8 @@
 				)
 			);
 			
+			if(empty($populartags)) return false;
+			
 			$maxsize=(int)qa_opt('log_tag_cloud_font_size');
 			$minsize=(int)qa_opt('log_tag_cloud_min_font_size');		
 
@@ -202,7 +204,7 @@
 				// take each weight from input, convert to log, put into new array called logweights
 				$logweights[$tagname] = log($w);
 			}
-
+			
 			 // MAX AND MIN OF logweights ARRAY
 			$max = max(array_values($logweights));
 			$min = min(array_values($logweights));
