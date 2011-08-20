@@ -20,7 +20,7 @@
 				case 'log_tag_cloud_size_popular':
 					return true;
 				default:
-					return false;
+					return null;
 			}
 		}
 		
