@@ -138,18 +138,16 @@
 		function output_widget($region, $place, $themeobject, $template, $request, $qa_content)
 		{
 			require_once QA_INCLUDE_DIR.'qa-db-selects.php';
-			
 			$populartags=qa_db_single_select(
 				array(
 					'columns' => array('word' => 'BINARY word', 'tagcount'),
-					'source' => '^words JOIN (SELECT wordid FROM ^words WHERE tagcount># ORDER BY tagcount DESC LIMIT #,#) y ON ^words.wordid=y.wordid',
+					'source' => '^words JOIN (SELECT wordid FROM ^words WHERE tagcount>=# ORDER BY tagcount DESC LIMIT #,#) y ON ^words.wordid=y.wordid',
 					'arguments' => array((int)qa_opt('log_tag_cloud_min_count'),0, (int)qa_opt('log_tag_cloud_count_tags')),
 					'arraykey' => 'word',
 					'arrayvalue' => 'tagcount',
 					'sortdesc' => 'tagcount',
 				)
 			);
-			
 			if(empty($populartags)) return false;
 			
 			$maxsize=(int)qa_opt('log_tag_cloud_font_size');
